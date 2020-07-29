@@ -1,0 +1,1 @@
+export const GALERY_API = 'http://localhost:8080'
