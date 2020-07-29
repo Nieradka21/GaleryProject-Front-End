@@ -1,1 +1,0 @@
-# GaleryProject-Front-End
