@@ -1,0 +1,22 @@
+<div class="col-md-3">
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Users</th>
+        <th scope="col">Access</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let Users of user">
+      <tr>
+        <th scope="row">0</th>
+        <td>{{user.id}}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.access}}</td>
+        
+      </tr>
+    </tbody>
+  </table>
+
+</div>
