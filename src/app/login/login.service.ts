@@ -11,9 +11,10 @@ export class LoginService {
     constructor(private http: HttpClient) { }
 
     login(name: string, pass: string): Observable<User> {
-        return this.http.post<User>(`${GALERY_API}/login`, {
+        return this.http.post<User>(`${GALERY_API}/galery/login`, {
             name: name, pass: pass
         })
+
     }
 
 }
