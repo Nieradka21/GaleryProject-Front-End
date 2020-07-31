@@ -1,9 +1,24 @@
-<app-home></app-home>
+<div>
+  <app-home></app-home>
+  <table class="table table-bordered">
 
-<div class="container">
-  <!-- Stack the columns on mobile by making one full-width and the other half-width -->
-  <div class="row">
-    <app-user></app-user>
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Users</th>
+        <th scope="col">Access</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let us of usuarios">
+        <th scope="row">{{us.id}}</th>
+        <td>{{us.name}}</td>
+        <td>{{us.pass}}</td>
 
 
-  </div>
+      </tr>
+    </tbody>
+
+  </table>
+
+</div>
