@@ -1,0 +1,52 @@
+<div class="container">
+  <div>
+    <p></p>
+    <h3 class="text-primary">Users</h3>
+  </div>
+  <div class="row">
+    <div class="col-md-7 col-sm-7 col-xs-12 border border-secondary">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">NAME</th>
+            <th scope="col">ACCESS</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let us of usuarios">
+          <tr>
+            <th scope="row">{{us.id}}</th>
+            <td>{{us.name}}</td>
+            <td>{{us.access}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+    <div class="col-md-1 col-sm-1 col-xs-12"></div>
+
+    <div class="col-md-4 col-sm-4 col-xs-12 border border-secondary">
+      <p></p>
+      <form [formGroup]="">
+        <div class="form-group">
+          <input class="form-control" type="text" placeholder="User Name">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        <div class="form-group">
+          <select class="custom-select">
+            <option selected>Select Group</option>
+            <option value="Sales">Sales</option>
+            <option value="Administrator">Admin</option>
+            <option value="Master">Master</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      <p></p>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
+import { GALERY_API } from './../../app.api';
 
 import { Injectable } from '@angular/core';
-import { GALERY_API } from './../app.api';
 import { Usuarios } from './user.model';
 import { Observable } from 'rxjs/Observable';
 import { Http } from '@angular/http';

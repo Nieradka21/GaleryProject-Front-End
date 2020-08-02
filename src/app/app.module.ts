@@ -1,3 +1,5 @@
+import { UsersService } from './registrations/users/users.service';
+import { UsersComponent } from './registrations/users/users.component';
 import { Http, HttpModule } from '@angular/http';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { LoginService } from './login/login.service';
@@ -8,15 +10,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-import { UsersComponent } from './users/users.component';
 
-import { UsersService } from './users/users.service';
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
     UsersComponent
+
 
 
   ],

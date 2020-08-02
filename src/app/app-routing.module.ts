@@ -1,4 +1,4 @@
-import { UsersComponent } from './users/users.component';
+import { UsersComponent } from './registrations/users/users.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
