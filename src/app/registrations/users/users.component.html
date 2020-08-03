@@ -1,3 +1,4 @@
+<app-home></app-home>
 <div class="container">
   <div>
     <p></p>
@@ -5,46 +6,58 @@
   </div>
   <div class="row">
     <div class="col-md-7 col-sm-7 col-xs-12 border border-secondary">
-      <table class="table">
+      <table id="pag" class="table">
         <thead>
           <tr>
             <th scope="col">ID</th>
             <th scope="col">NAME</th>
             <th scope="col">ACCESS</th>
+            <th scope="col">Password</th>
+
           </tr>
         </thead>
-        <tbody *ngFor="let us of usuarios">
+        <tbody *ngFor="let us of usuarios | paginate:{itemsPerPage:5,currentPage:paginaAtual};">
           <tr>
             <th scope="row">{{us.id}}</th>
             <td>{{us.name}}</td>
             <td>{{us.access}}</td>
+            <td>{{us.pass}}</td>
+            <td><button class="btn btn-primary">Editar</button>
+            <button class="btn btn-primary">Excluir</button></td>
+
           </tr>
         </tbody>
+
       </table>
 
+      <pagination-controls (pageChange)="paginaAtual = $event" previousLabel="" nextLabel="">
+      </pagination-controls>
+
     </div>
+
 
     <div class="col-md-1 col-sm-1 col-xs-12"></div>
 
     <div class="col-md-4 col-sm-4 col-xs-12 border border-secondary">
       <p></p>
-      <form [formGroup]="">
+      <form [formGroup]="cadUs" (ngSubmit)="onSubmit()">
         <div class="form-group">
-          <input class="form-control" type="text" placeholder="User Name">
+          <input formControlName="name" class="form-control" type="text" placeholder="User Name" />
+          <span></span>
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1">
+          <input formControlName="pass" type="password" class="form-control" id="exampleInputPassword1"
+            placeholder="Password">
         </div>
         <div class="form-group">
-          <select class="custom-select">
+          <select formControlName="access" class="custom-select">
             <option selected>Select Group</option>
             <option value="Sales">Sales</option>
             <option value="Administrator">Admin</option>
             <option value="Master">Master</option>
           </select>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button [disabled]="cadUs.invalid" type="submit" class="btn btn-primary">Submit</button>
       </form>
       <p></p>
     </div>
