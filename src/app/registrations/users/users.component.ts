@@ -2,7 +2,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Usuarios } from './user.model';
 import { UsersService } from './users.service';
 import { Component, OnInit, Input } from '@angular/core';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-users',
@@ -10,13 +10,20 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+ 
   public paginaAtual = 1;
   usuarios: Usuarios[] = [];
   user: Usuarios = {} as Usuarios;
   cadUs: FormGroup;
+  message: string;
+  messageType: string;
+
+
   constructor(
+
     private userService: UsersService,
     private formBuilder: FormBuilder
+   
   ) { }
 
   ngOnInit() {
@@ -24,7 +31,10 @@ export class UsersComponent implements OnInit {
     this.criarForm();
   }
 
-
+close(){
+  this.message = "" ;
+  this.messageType = "";
+}
 
   criarForm() {
 
@@ -46,6 +56,13 @@ export class UsersComponent implements OnInit {
 
         }
       )
+
+  }
+
+  teste() {
+   
+this.messageType = 'danger';
+this.message = "erro"
 
   }
 

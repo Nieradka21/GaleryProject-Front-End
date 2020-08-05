@@ -1,3 +1,4 @@
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UsersService } from './registrations/users/users.service';
 import { UsersComponent } from './registrations/users/users.component';
 import { Http, HttpModule } from '@angular/http';
@@ -10,7 +11,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
     HttpModule,
     FormsModule,
     NgxPaginationModule,
+    NgbModule,
 
     AppRoutingModule
   ],

@@ -1,4 +1,6 @@
 <app-home></app-home>
+
+
 <div class="container">
   <div>
     <p></p>
@@ -40,7 +42,7 @@
 
     <div class="col-md-4 col-sm-4 col-xs-12 border border-secondary">
       <p></p>
-      <form [formGroup]="cadUs" (ngSubmit)="onSubmit()">
+      <form [formGroup]="cadUs" >
         <div class="form-group">
           <input formControlName="name" class="form-control" type="text" placeholder="User Name" />
           <span></span>
@@ -57,9 +59,13 @@
             <option value="Master">Master</option>
           </select>
         </div>
-        <button [disabled]="cadUs.invalid" type="submit" class="btn btn-primary">Submit</button>
+        <button (click)="teste()" [disabled]="cadUs.invalid" type="submit" class="btn btn-primary">Submit</button>
       </form>
       <p></p>
     </div>
   </div>
+  
 </div>
+<p *ngIf="message">
+  <ngb-alert [type]="messageType" (close)="close()">{{ message }}</ngb-alert>
+</p>
