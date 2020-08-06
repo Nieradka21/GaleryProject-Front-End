@@ -3,7 +3,11 @@
 
 <div class="container">
   <div>
-    <p></p>
+    <div *ngIf="carregar">
+      <ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium">
+        <p class="loading" style="color: rgb(255, 255, 255)"> Carregando... </p>
+      </ngx-spinner>
+    </div>
     <h3 class="text-primary">Users</h3>
   </div>
   <div class="row">
@@ -24,8 +28,8 @@
             <td>{{us.name}}</td>
             <td>{{us.access}}</td>
             <td>{{us.pass}}</td>
-            <td><button class="btn btn-primary">Editar</button>
-            <button class="btn btn-primary">Excluir</button></td>
+            <td><button (click)="editarClick(us)" class="btn btn-primary">Editar</button>
+              <button class="btn btn-danger">Excluir</button></td>
 
           </tr>
         </tbody>
@@ -42,7 +46,7 @@
 
     <div class="col-md-4 col-sm-4 col-xs-12 border border-secondary">
       <p></p>
-      <form [formGroup]="cadUs" >
+      <form [formGroup]="cadUs" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <input formControlName="name" class="form-control" type="text" placeholder="User Name" />
           <span></span>
@@ -53,19 +57,21 @@
         </div>
         <div class="form-group">
           <select formControlName="access" class="custom-select">
-            <option selected>Select Group</option>
+            <option [selected]="true">Select Group</option>
             <option value="Sales">Sales</option>
             <option value="Administrator">Admin</option>
             <option value="Master">Master</option>
           </select>
         </div>
-        <button (click)="teste()" [disabled]="cadUs.invalid" type="submit" class="btn btn-primary">Submit</button>
+        <button [disabled]="cadUs.invalid" type="submit" class="btn btn-primary">Submit</button>
+        <br>
+        <p *ngIf="message">
+          <br>
+          <ngb-alert [type]="messageType" (close)="close()">{{ message }}</ngb-alert>
+        </p>
       </form>
       <p></p>
     </div>
   </div>
-  
+
 </div>
-<p *ngIf="message">
-  <ngb-alert [type]="messageType" (close)="close()">{{ message }}</ngb-alert>
-</p>

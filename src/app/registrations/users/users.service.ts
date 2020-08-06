@@ -13,15 +13,16 @@ export class UsersService {
   options = {};
   constructor(private http: Http) { }
 
-  usuario(): Observable<Usuarios[]> {
-    return this.http.get(`${GALERY_API}/galery/users`)
+  getUsuario(): Observable<Usuarios[]> {
+    return this.http
+      .get(`${GALERY_API}/galery/users`)
       .map(response => response.json())
   }
 
-  cadastrarUsuario(user:Usuarios): Observable<any> {
+  cadastrarUsuario(user: Usuarios): Observable<any> {
 
-    return this.http.post(`${GALERY_API}/galery/user`,user,this.options)
-      .map(response => response.json()) 
+    return this.http.post(`${GALERY_API}/galery/user`, user, this.options)
+      .map(response => response.json())
 
   }
 }
