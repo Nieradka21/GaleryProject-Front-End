@@ -35,5 +35,6 @@ export class UsersService {
    return this.http.delete(`${GALERY_API}/galery/user/${user}`)
    .map(response => response.ok)
 
+
   }
 }
