@@ -19,6 +19,7 @@ export class UsersComponent implements OnInit {
   message: string;
   messageType: string;
   carregar = false;
+  editar = false;
 
 
   constructor(
@@ -34,10 +35,9 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
     this.carregar = false;
     this.spinner.show();
+    this.criarTable();
 
-    this.userService.getUsuario().subscribe(usuarios => this.usuarios = usuarios);
     this.criarForm();
-
 
 
 
@@ -46,6 +46,12 @@ export class UsersComponent implements OnInit {
   close() {
     this.message = "";
     this.messageType = "";
+  }
+
+  criarTable() {
+
+    this.userService.getUsuario().subscribe(usuarios => this.usuarios = usuarios);
+
   }
 
   criarForm() {
@@ -58,15 +64,95 @@ export class UsersComponent implements OnInit {
   }
 
   onSubmit() {
-    this.carregar = true;
+    this.editar = false;
     this.user = this.cadUs.value;
-    this.userService.cadastrarUsuario(this.user)
+
+    if (!this.editar) {
+      this.carregar = true;
+      this.userService.cadastrarUsuario(this.user)
+        .subscribe(
+          res => {
+            console.log(res);
+            this.cadUs = this.formBuilder.group({
+              name: this.formBuilder.control('', [Validators.required, Validators.minLength(3)]),
+              pass: this.formBuilder.control('', [Validators.required, Validators.minLength(6)]),
+              access: this.formBuilder.control('',[Validators.required])
+            });
+            this.criarTable();
+            this.messageType = 'success';
+            this.message = 'Cadastro realizado com sucesso';
+            this.carregar = false;
+            this.spinner.hide();
+
+          },
+          error => {
+            console.log(error);
+            this.messageType = 'danger';
+            this.message = 'erro';
+            this.carregar = false;
+            this.spinner.hide();
+
+          }
+        )
+    }
+
+    else {
+      this.carregar = true;
+      this.editar = false;
+      this.userService.editarUsuario(this.user)
+        .subscribe(
+          res => {
+            console.log(res);
+            this.cadUs = this.formBuilder.group({
+              name: this.formBuilder.control('', [Validators.required, Validators.minLength(3)]),
+              pass: this.formBuilder.control('', [Validators.required, Validators.minLength(6)]),
+              access: this.formBuilder.control('',[Validators.required])
+            });
+            this.criarTable();
+            this.messageType = 'success';
+            this.message = 'Editado com sucesso';
+            this.carregar = false;
+            this.spinner.hide();
+
+          },
+          error => {
+            console.log(error);
+            this.messageType = 'danger';
+            this.message = 'erro';
+            this.carregar = false;
+            this.spinner.hide();
+
+          }
+        )
+
+      console.log(this.user);
+    }
+  }
+
+
+  editarClick(us: Usuarios) {
+    this.user.id = us.id;
+    this.editar = true;
+    console.log(us.id)
+    this.cadUs = this.formBuilder.group({
+      id: this.formBuilder.control(us.id),
+      name: this.formBuilder.control(us.name),
+      pass: this.formBuilder.control(us.pass),
+      access: this.formBuilder.control(us.access)
+    })
+  }
+
+  deletarClick(us) {
+
+    this.user = us.id;
+
+    this.userService.deletarUsuario(this.user)
       .subscribe(
         res => {
           console.log(res);
-          this.cadUs.reset();
+          this.criarTable();
           this.messageType = 'success';
-          this.message = 'Cadastro realizado com sucesso';
+          this.message = 'Deletado com sucesso';
           this.carregar = false;
           this.spinner.hide();
 
@@ -80,18 +166,6 @@ export class UsersComponent implements OnInit {
 
         }
       )
-
-  }
-
-
-  editarClick(us: Usuarios) {
-    console.log(us.id)
-    this.cadUs = this.formBuilder.group({
-      name: this.formBuilder.control(us.name),
-      pass: this.formBuilder.control(us.pass),
-      access: this.formBuilder.control(us.access)
-    })
-
   }
 
 }

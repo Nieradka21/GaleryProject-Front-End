@@ -4,6 +4,8 @@ import { Usuarios } from './user.model';
 import { Observable } from 'rxjs/Observable';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map'
+import { ok } from 'assert';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 
@@ -20,9 +22,18 @@ export class UsersService {
   }
 
   cadastrarUsuario(user: Usuarios): Observable<any> {
-
     return this.http.post(`${GALERY_API}/galery/user`, user, this.options)
-      .map(response => response.json())
+      .map(response => response.ok)
+  }
+  editarUsuario(user: Usuarios): Observable<any> {
+
+    return this.http.put(`${GALERY_API}/galery/user`, user, this.options)
+      .map(response => response.ok)
+  }
+
+  deletarUsuario(user): Observable<any> {
+   return this.http.delete(`${GALERY_API}/galery/user/${user}`)
+   .map(response => response.ok)
 
   }
 }
