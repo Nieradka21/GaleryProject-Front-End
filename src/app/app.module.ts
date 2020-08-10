@@ -5,7 +5,7 @@ import { Http, HttpModule } from '@angular/http';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { LoginService } from './login/login.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,6 +13,8 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { PopUpComponent } from './registrations/users/pop-up/pop-up.component';
+import { PopUpService } from './registrations/users/pop-up/pop-up.services';
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     AppComponent,
     LoginComponent,
     HomeComponent,
-    UsersComponent
+    UsersComponent,
+    PopUpComponent
+    
 
 
 
@@ -37,10 +41,12 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
     AppRoutingModule
   ],
-  providers: [LoginService, UsersService],
+  providers: [LoginService, UsersService,PopUpService],
+  entryComponents: [ PopUpComponent ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
 
+  
 
 }

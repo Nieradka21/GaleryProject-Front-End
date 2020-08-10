@@ -31,10 +31,10 @@ export class UsersService {
       .map(response => response.ok)
   }
 
-  deletarUsuario(user): Observable<any> {
-   return this.http.delete(`${GALERY_API}/galery/user/${user}`)
+  deletarUsuario(id): Observable<any> {
+   return this.http.delete(`${GALERY_API}/galery/user/${id}`)
    .map(response => response.ok)
 
-
   }
+ 
 }

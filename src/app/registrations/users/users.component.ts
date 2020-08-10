@@ -3,6 +3,12 @@ import { Usuarios } from './user.model';
 import { UsersService } from './users.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { PopUpService } from './pop-up/pop-up.services';
+import { PopUpComponent } from './pop-up/pop-up.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+
+
 
 
 
@@ -22,13 +28,17 @@ export class UsersComponent implements OnInit {
   carregar = false;
   editar = false;
 
+  id: number;
+
+
 
   constructor(
 
     private userService: UsersService,
     private formBuilder: FormBuilder,
-    private spinner: NgxSpinnerService
-
+    private spinner: NgxSpinnerService,
+    private modalService: NgbModal,
+    private confirmationDialogService: PopUpService
 
 
   ) { }
@@ -133,18 +143,20 @@ export class UsersComponent implements OnInit {
     })
   }
 
+
   deletarClick(us) {
+    
 
-    this.user = us.id;
-
-    this.userService.deletarUsuario(this.user)
+    this.userService.deletarUsuario(us.id)
       .subscribe(
         res => {
           console.log(res);
           this.criarTable();
+          this.cadUs.reset();
           this.messageType = 'success';
           this.message = 'Deletado com sucesso';
           this.carregar = false;
+          us=null;
           this.spinner.hide();
 
         },
@@ -157,6 +169,11 @@ export class UsersComponent implements OnInit {
 
         }
       )
+  }
+
+  public openConfirmationDialog(us) {
+    const modalRef = this.modalService.open(PopUpComponent);
+    modalRef.componentInstance.us = us.id;
   }
 
 }
