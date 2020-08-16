@@ -18,8 +18,9 @@ export class UsersService {
   getUsuario(): Observable<Usuarios[]> {
     return this.http
       .get(`${GALERY_API}/galery/users`)
-      .map(response => response.json())
+      .map(response => response.json());
   }
+
 
   cadastrarUsuario(user: Usuarios): Observable<any> {
     return this.http.post(`${GALERY_API}/galery/user`, user, this.options)
@@ -32,9 +33,9 @@ export class UsersService {
   }
 
   deletarUsuario(id): Observable<any> {
-   return this.http.delete(`${GALERY_API}/galery/user/${id}`)
-   .map(response => response.ok)
+    return this.http.delete(`${GALERY_API}/galery/user/${id}`)
+      .map(response => response.ok)
 
   }
- 
+
 }

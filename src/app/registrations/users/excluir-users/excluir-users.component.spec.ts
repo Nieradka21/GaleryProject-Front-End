@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PopUpComponent } from './pop-up.component';
+import { ExcluirUsersComponent } from './excluir-users.component';
 
-describe('PopUpComponent', () => {
-  let component: PopUpComponent;
-  let fixture: ComponentFixture<PopUpComponent>;
+describe('ExcluirUsersComponent', () => {
+  let component: ExcluirUsersComponent;
+  let fixture: ComponentFixture<ExcluirUsersComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PopUpComponent ]
+      declarations: [ ExcluirUsersComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PopUpComponent);
+    fixture = TestBed.createComponent(ExcluirUsersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

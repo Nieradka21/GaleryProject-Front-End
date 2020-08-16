@@ -13,8 +13,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { PopUpComponent } from './registrations/users/pop-up/pop-up.component';
-import { PopUpService } from './registrations/users/pop-up/pop-up.services';
+import { ExcluirUsersComponent } from './registrations/users/excluir-users/excluir-users.component';
 
 
 @NgModule({
@@ -23,8 +22,8 @@ import { PopUpService } from './registrations/users/pop-up/pop-up.services';
     LoginComponent,
     HomeComponent,
     UsersComponent,
-    PopUpComponent
-    
+    ExcluirUsersComponent
+
 
 
 
@@ -41,12 +40,11 @@ import { PopUpService } from './registrations/users/pop-up/pop-up.services';
 
     AppRoutingModule
   ],
-  providers: [LoginService, UsersService,PopUpService],
-  entryComponents: [ PopUpComponent ],
+  providers: [LoginService, UsersService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
 
-  
+
 
 }

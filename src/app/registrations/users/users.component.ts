@@ -3,9 +3,8 @@ import { Usuarios } from './user.model';
 import { UsersService } from './users.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { PopUpService } from './pop-up/pop-up.services';
-import { PopUpComponent } from './pop-up/pop-up.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ExcluirUsersComponent } from './excluir-users/excluir-users.component';
 
 
 
@@ -19,7 +18,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class UsersComponent implements OnInit {
 
-  public paginaAtual = 1;
+  page = 1;
   usuarios: Usuarios[] = [];
   user: Usuarios = {} as Usuarios;
   cadUs: FormGroup;
@@ -27,8 +26,11 @@ export class UsersComponent implements OnInit {
   messageType: string;
   carregar = false;
   editar = false;
+  pag: Usuarios[];
 
-  id: number;
+  pageSize = 4;
+  collectionSize = this.usuarios.length;
+  //id: number;
 
 
 
@@ -38,7 +40,6 @@ export class UsersComponent implements OnInit {
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
-    private confirmationDialogService: PopUpService
 
 
   ) { }
@@ -47,21 +48,25 @@ export class UsersComponent implements OnInit {
     this.carregar = false;
     this.spinner.show();
     this.criarTable();
-
     this.criarForm();
 
-
-
+  }
+  refreshUsers() {
+    this.pag = this.usuarios
+      .map((us, i) => ({ id: i + 1, ...us }))
+      .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
 
+
+  criarTable() {
+    this.userService.getUsuario().subscribe(usuarios => this.usuarios = usuarios)
+  }
   close() {
     this.message = "";
     this.messageType = "";
   }
 
-  criarTable() {
-    this.userService.getUsuario().subscribe(usuarios => this.usuarios = usuarios);
-  }
+
 
   criarForm() {
     this.cadUs = this.formBuilder.group({
@@ -145,35 +150,14 @@ export class UsersComponent implements OnInit {
 
 
   deletarClick(us) {
-    
 
-    this.userService.deletarUsuario(us.id)
-      .subscribe(
-        res => {
-          console.log(res);
-          this.criarTable();
-          this.cadUs.reset();
-          this.messageType = 'success';
-          this.message = 'Deletado com sucesso';
-          this.carregar = false;
-          us=null;
-          this.spinner.hide();
 
-        },
-        error => {
-          console.log(error);
-          this.messageType = 'danger';
-          this.message = 'erro';
-          this.carregar = false;
-          this.spinner.hide();
 
-        }
-      )
   }
 
   public openConfirmationDialog(us) {
-    const modalRef = this.modalService.open(PopUpComponent);
-    modalRef.componentInstance.us = us.id;
+    const ref = this.modalService.open(ExcluirUsersComponent, { centered: true });
+    ref.componentInstance.user = us;
   }
 
 }
