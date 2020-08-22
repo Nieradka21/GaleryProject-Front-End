@@ -1,6 +1,5 @@
 <app-home></app-home>
 
-
 <div class="container">
   <div>
     <div *ngIf="carregar">
@@ -10,7 +9,9 @@
     </div>
     <h3 class="text-primary">Users</h3>
   </div>
+
   <div class="row">
+
     <div class="col-md-7 col-sm-7 col-xs-12 border border-secondary">
       <table id="pag" class="table">
         <thead>
@@ -24,30 +25,20 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let us of usuarios | paginate:{itemsPerPage:pageSize,currentPage:page};"><!---->
+          <tr *ngFor="let us of usuarios ">
             <th scope="row">{{us.id}}</th>
-            <td>{{us.name}}</td>
-            <td>{{us.access}}</td>
-            <td>{{us.pass}}</td>
-            <td><button (click)="editarClick(us)" class="btn btn-primary">Editar</button>
-              <button (click)="openConfirmationDialog(us)" class="btn btn-danger">Excluir</button></td>
-
-
+            <td> {{us.name}}</td>
+            <td> {{us.access}} </td>
+            <td> {{us.pass}} </td>
+            <td>
+              <button (click)="editarClick(us)" class="btn btn-primary">Editar</button>
+              <button (click)="deletarClick(us)" class="btn btn-danger">Excluir</button>
+            </td>
           </tr>
         </tbody>
 
       </table>
-      <div class="d-flex justify-content-between p-2">
-         <pagination-controls (pageChange)="page = $event" previousLabel="" nextLabel="">
-        </pagination-controls>
-        <!--<ngb-pagination [collectionSize]="usuarios.length" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshUsers()">
-        </ngb-pagination>-->
-        <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshUsers()">
-          <option [ngValue]="2">2 items per page</option>
-          <option [ngValue]="4">4 items per page</option>
-          <option [ngValue]="6">6 items per page</option>
-        </select>
-      </div>
+
     </div>
 
 

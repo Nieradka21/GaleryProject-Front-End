@@ -4,4 +4,6 @@ export interface Usuarios {
     name: string
     access: string
     pass: string
+
+    
 }

@@ -1,21 +1,22 @@
-import { FormGroup, FormBuilder, Validators, FormControlName } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControlName, FormControl } from '@angular/forms';
 import { Usuarios } from './user.model';
 import { UsersService } from './users.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, PipeTransform } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ExcluirUsersComponent } from './excluir-users/excluir-users.component';
-
-
-
-
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, filter, startWith } from 'rxjs/operators';
+import { DecimalPipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  styleUrls: ['./users.component.css'],
+  providers: [NgbTypeaheadConfig]
 })
+
 export class UsersComponent implements OnInit {
 
   page = 1;
@@ -26,13 +27,25 @@ export class UsersComponent implements OnInit {
   messageType: string;
   carregar = false;
   editar = false;
-  pag: Usuarios[];
 
-  pageSize = 4;
-  collectionSize = this.usuarios.length;
+  pageSize = 2;
+
+  public model: Usuarios[];
+
+  users$: Observable<Usuarios[]>;
+  filter = new FormControl('');
+
+  formatter = (us: Usuarios) => us.name;
   //id: number;
 
-
+  search(text: string, pipe: PipeTransform): Usuarios[] {
+    return this.usuarios.filter(us => {
+      const term = text.toLowerCase();
+      return us.name.toLowerCase().includes(term)
+        || pipe.transform(us.access).includes(term)
+        || pipe.transform(us.pass).includes(term);
+    });
+  }
 
   constructor(
 
@@ -41,32 +54,38 @@ export class UsersComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
 
+    pipe: DecimalPipe,
 
-  ) { }
+    config: NgbTypeaheadConfig
+
+
+  ) { //config.showHint = true,
+    this.users$ = this.filter.valueChanges.pipe(
+      startWith(''),
+      map(text => this.search(text, pipe))
+    );
+
+    this.userService.getUsuario().subscribe(us => this.usuarios = us)
+
+  }
+  criarTable() {
+    this.userService.getUsuario().subscribe(us => this.usuarios = us)
+  }
+
 
   ngOnInit() {
     this.carregar = false;
     this.spinner.show();
-    this.criarTable();
     this.criarForm();
+    this.criarTable();
 
-  }
-  refreshUsers() {
-    this.pag = this.usuarios
-      .map((us, i) => ({ id: i + 1, ...us }))
-      .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
 
 
-  criarTable() {
-    this.userService.getUsuario().subscribe(usuarios => this.usuarios = usuarios)
-  }
   close() {
     this.message = "";
     this.messageType = "";
   }
-
-
 
   criarForm() {
     this.cadUs = this.formBuilder.group({
@@ -151,13 +170,42 @@ export class UsersComponent implements OnInit {
 
   deletarClick(us) {
 
-
-
-  }
-
-  public openConfirmationDialog(us) {
     const ref = this.modalService.open(ExcluirUsersComponent, { centered: true });
     ref.componentInstance.user = us;
+
+
+    ref.result.then((result) => {
+      console.log(result)
+      if (result) {
+        this.carregar = true;
+        this.spinner.show();
+        setTimeout(() => {
+          this.userService.deletarUsuario(us.id)
+            .subscribe(
+              res => {
+                console.log(res);
+                this.carregar = false;
+                this.message = 'Deletado com sucesso'
+                this.messageType = 'success'
+                this.spinner.hide();
+                this.criarTable();
+
+              },
+              error => {
+                console.log(error);
+                this.messageType = 'danger';
+                this.message = error;
+                this.carregar = false;
+                this.spinner.hide();
+
+              }
+            )
+        }, 1);
+
+      }
+    })
+
+
   }
 
 }

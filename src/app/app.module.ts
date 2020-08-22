@@ -14,6 +14,7 @@ import { HomeComponent } from './home/home.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ExcluirUsersComponent } from './registrations/users/excluir-users/excluir-users.component';
+import { DecimalPipe } from '@angular/common';
 
 
 @NgModule({
@@ -40,7 +41,7 @@ import { ExcluirUsersComponent } from './registrations/users/excluir-users/exclu
 
     AppRoutingModule
   ],
-  providers: [LoginService, UsersService],
+  providers: [LoginService, UsersService ,DecimalPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule {
