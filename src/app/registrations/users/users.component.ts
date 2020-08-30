@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, filter, startWith } from 'rxjs/operators';
 import { DecimalPipe } from '@angular/common';
 import { padNumber } from '@ng-bootstrap/ng-bootstrap/util/util';
-
+import { text } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-users',
@@ -32,23 +32,26 @@ export class UsersComponent implements OnInit {
   pageSize = 5;
   homePage = 0;
 
+  filter = new FormControl('');
+
+
   constructor(
 
     private userService: UsersService,
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
+    pipe: DecimalPipe
   ) {
+
   }
-
-
 
   ngOnInit() {
     this.carregar = false;
     this.spinner.show();
     this.criarForm();
     this.criarTable(this.homePage, this.pageSize)
-    
+
   }
   criarTable(page, pageSize) {
     this.userService.getUsuario(page, pageSize).subscribe(res => {
@@ -57,11 +60,21 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  changePage(event){
-    this.criarTable(event.page, event.size);
-   }
+  criarTableBy(user) {
+    user = this.filter.value;
 
-  
+    this.userService.getUsuarioBy(user, this.homePage, this.pageSize).subscribe(res => {
+      this.page = res;
+      this.usuarios = this.page.content;
+    })
+
+  }
+
+  changePage(event) {
+    this.criarTable(event.page, event.size);
+  }
+
+
   close() {
     this.message = "";
     this.messageType = "";
@@ -85,6 +98,7 @@ export class UsersComponent implements OnInit {
           res => {
             console.log(res);
             this.editar = false;
+            this.cadUs.setValidators;
             this.cadUs.reset();
             this.criarTable(0, this.pageSize);
             this.messageType = 'success';
@@ -110,13 +124,14 @@ export class UsersComponent implements OnInit {
         .subscribe(
           res => {
             console.log(res);
-            this.cadUs.reset();
-            this.criarTable(0, this.pageSize);
+            this.criarTable(this.homePage, this.pageSize);
             this.messageType = 'success';
             this.message = 'Editado com sucesso';
             this.carregar = false;
             this.spinner.hide();
             this.editar = false;
+            this.cadUs.reset();
+            
           },
           error => {
             console.log(error);
@@ -153,9 +168,8 @@ export class UsersComponent implements OnInit {
     const ref = this.modalService.open(ExcluirUsersComponent, { centered: true });
     ref.componentInstance.user = us;
 
-
     ref.result.then((result) => {
-      console.log(result)
+
       if (result) {
         this.carregar = true;
         this.spinner.show();
@@ -168,7 +182,7 @@ export class UsersComponent implements OnInit {
                 this.message = 'Deletado com sucesso'
                 this.messageType = 'success'
                 this.spinner.hide();
-                this.criarTable(0, this.pageSize);
+                this.criarTable(this.homePage, this.pageSize);
 
               },
               error => {

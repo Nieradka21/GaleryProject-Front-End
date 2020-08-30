@@ -29,7 +29,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
                   </a>
               </li>
               <select (ngModelChange)="changePage()" [(ngModel)]="size" class="custom-select">
-                    <option value="5">5</option>
+                    <option value="5">05</option>
                     <option value="10" selected>10</option>
                     <option value="15">15</option>
                     <option value="20">20</option>

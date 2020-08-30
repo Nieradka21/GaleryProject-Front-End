@@ -12,14 +12,20 @@ export class UsersService {
 
   user: Usuarios = {} as Usuarios;
   options = {};
-   constructor(private http: Http) { }
+  constructor(private http: Http) { }
 
-  getUsuario(page,size): Observable<Page> {
+  getUsuario(page, size): Observable<Page> {
     return this.http
       .get(`${GALERY_API}/galery/users?page=${page}&size=${size}`)
       .map(res => res.json())
+    //&sort=name&name.dir=asc
   }
 
+  getUsuarioBy(user, page, size): Observable<Page> {
+    return this.http
+      .get(`${GALERY_API}/galery/users/${user}?page=${page}&size=${size}`)
+      .map(res => res.json())
+  }
 
   cadastrarUsuario(user: Usuarios): Observable<any> {
     return this.http.post(`${GALERY_API}/galery/user`, user, this.options)
