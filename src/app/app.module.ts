@@ -15,6 +15,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ExcluirUsersComponent } from './registrations/users/excluir-users/excluir-users.component';
 import { DecimalPipe } from '@angular/common';
+import { PaginationComponent } from './pagination/paginacao.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { DecimalPipe } from '@angular/common';
     LoginComponent,
     HomeComponent,
     UsersComponent,
-    ExcluirUsersComponent
+    ExcluirUsersComponent,
+    PaginationComponent
 
 
 

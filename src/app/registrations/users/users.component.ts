@@ -30,7 +30,7 @@ export class UsersComponent implements OnInit {
   carregar = false;
   editar = false;
   pageSize = 5;
-  homePage = 1;
+  homePage = 0;
 
   constructor(
 
@@ -38,7 +38,7 @@ export class UsersComponent implements OnInit {
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
-  ) {//this.refreshCountries(); 
+  ) {
   }
 
 
@@ -57,14 +57,11 @@ export class UsersComponent implements OnInit {
     })
   }
 
+  changePage(event){
+    this.criarTable(event.page, event.size);
+   }
 
-  refreshCountries() {
-    this.usuarios = this.usuarios
-      .map((u, i) => ({ id: i + 1, ...u }))
-      .slice((this.homePage - 1) * this.pageSize, (this.homePage - 1) *
-        this.pageSize + this.pageSize);
-  }
-
+  
   close() {
     this.message = "";
     this.messageType = "";
