@@ -1,5 +1,5 @@
 import { FormGroup, FormBuilder, Validators, FormControlName, FormControl } from '@angular/forms';
-import { Usuarios } from './user.model';
+import { Usuarios, Page, Pageable } from './user.model';
 import { UsersService } from './users.service';
 import { Component, OnInit, Input, PipeTransform } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -8,6 +8,7 @@ import { ExcluirUsersComponent } from './excluir-users/excluir-users.component';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, filter, startWith } from 'rxjs/operators';
 import { DecimalPipe } from '@angular/common';
+import { padNumber } from '@ng-bootstrap/ng-bootstrap/util/util';
 
 
 @Component({
@@ -19,33 +20,17 @@ import { DecimalPipe } from '@angular/common';
 
 export class UsersComponent implements OnInit {
 
-  page = 1;
-  usuarios: Usuarios[] = [];
+  page: Page;
+  pageNumber: Pageable;
+  usuarios: Array<Usuarios>;
   user: Usuarios = {} as Usuarios;
   cadUs: FormGroup;
   message: string;
   messageType: string;
   carregar = false;
   editar = false;
-
-  pageSize = 2;
-
-  public model: Usuarios[];
-
-  users$: Observable<Usuarios[]>;
-  filter = new FormControl('');
-
-  formatter = (us: Usuarios) => us.name;
-  //id: number;
-
-  search(text: string, pipe: PipeTransform): Usuarios[] {
-    return this.usuarios.filter(us => {
-      const term = text.toLowerCase();
-      return us.name.toLowerCase().includes(term)
-        || pipe.transform(us.access).includes(term)
-        || pipe.transform(us.pass).includes(term);
-    });
-  }
+  pageSize = 5;
+  homePage = 1;
 
   constructor(
 
@@ -53,34 +38,32 @@ export class UsersComponent implements OnInit {
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
-
-    pipe: DecimalPipe,
-
-    config: NgbTypeaheadConfig
-
-
-  ) { //config.showHint = true,
-    this.users$ = this.filter.valueChanges.pipe(
-      startWith(''),
-      map(text => this.search(text, pipe))
-    );
-
-    this.userService.getUsuario().subscribe(us => this.usuarios = us)
-
+  ) {//this.refreshCountries(); 
   }
-  criarTable() {
-    this.userService.getUsuario().subscribe(us => this.usuarios = us)
-  }
+
 
 
   ngOnInit() {
     this.carregar = false;
     this.spinner.show();
     this.criarForm();
-    this.criarTable();
-
+    this.criarTable(this.homePage, this.pageSize)
+    
+  }
+  criarTable(page, pageSize) {
+    this.userService.getUsuario(page, pageSize).subscribe(res => {
+      this.page = res
+      this.usuarios = this.page.content;
+    })
   }
 
+
+  refreshCountries() {
+    this.usuarios = this.usuarios
+      .map((u, i) => ({ id: i + 1, ...u }))
+      .slice((this.homePage - 1) * this.pageSize, (this.homePage - 1) *
+        this.pageSize + this.pageSize);
+  }
 
   close() {
     this.message = "";
@@ -106,7 +89,7 @@ export class UsersComponent implements OnInit {
             console.log(res);
             this.editar = false;
             this.cadUs.reset();
-            this.criarTable();
+            this.criarTable(0, this.pageSize);
             this.messageType = 'success';
             this.message = 'Cadastro realizado com sucesso';
             this.carregar = false;
@@ -131,7 +114,7 @@ export class UsersComponent implements OnInit {
           res => {
             console.log(res);
             this.cadUs.reset();
-            this.criarTable();
+            this.criarTable(0, this.pageSize);
             this.messageType = 'success';
             this.message = 'Editado com sucesso';
             this.carregar = false;
@@ -188,7 +171,7 @@ export class UsersComponent implements OnInit {
                 this.message = 'Deletado com sucesso'
                 this.messageType = 'success'
                 this.spinner.hide();
-                this.criarTable();
+                this.criarTable(0, this.pageSize);
 
               },
               error => {

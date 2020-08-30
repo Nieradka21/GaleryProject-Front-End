@@ -13,6 +13,7 @@ export class ExcluirUsersComponent implements OnInit {
   user: Usuarios;
   message: string;
   messageType: string;
+  carregar = false;
   constructor(
 
     public activeModal: NgbActiveModal

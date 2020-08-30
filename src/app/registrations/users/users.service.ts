@@ -1,6 +1,6 @@
 import { GALERY_API } from './../../app.api';
 import { Injectable } from '@angular/core';
-import { Usuarios } from './user.model';
+import { Usuarios, Page } from './user.model';
 import { Observable } from 'rxjs/Observable';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map'
@@ -14,10 +14,10 @@ export class UsersService {
   options = {};
    constructor(private http: Http) { }
 
-  getUsuario(): Observable<Usuarios[]> {
+  getUsuario(page,size): Observable<Page> {
     return this.http
-      .get(`${GALERY_API}/galery/users`)
-      .map(response => response.json());
+      .get(`${GALERY_API}/galery/users?page=${page}&size=${size}`)
+      .map(res => res.json())
   }
 
 
