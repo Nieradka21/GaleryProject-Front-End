@@ -1,17 +1,13 @@
-import { FormGroup, FormBuilder, Validators, FormControlName, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Usuarios, Page, Pageable } from './user.model';
 import { UsersService } from './users.service';
-import { Component, OnInit, Input, PipeTransform } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal, NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ExcluirUsersComponent } from './excluir-users/excluir-users.component';
-import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, filter, startWith } from 'rxjs/operators';
+
 import { DecimalPipe } from '@angular/common';
-import { padNumber } from '@ng-bootstrap/ng-bootstrap/util/util';
-import { text } from '@angular/core/src/render3';
-import { invalid } from '@angular/compiler/src/render3/view/util';
-import { INVALID } from '@angular/forms/src/model';
+
 
 @Component({
   selector: 'app-users',
@@ -56,9 +52,15 @@ export class UsersComponent implements OnInit {
 
   }
   criarTable(page, pageSize) {
+    this.carregar = true;
+
     this.userService.getUsuario(page, pageSize).subscribe(res => {
-      this.page = res
+      this.page = res;
       this.usuarios = this.page.content;
+      this.carregar = false;
+    }, err => {
+      console.log(err);
+      this.carregar = false;
     })
   }
 
