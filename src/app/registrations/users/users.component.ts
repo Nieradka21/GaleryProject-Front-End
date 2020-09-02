@@ -5,8 +5,9 @@ import { Component, OnInit, } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal, NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ExcluirUsersComponent } from './excluir-users/excluir-users.component';
+import { debounceTime, switchMap } from 'rxjs/operators';
 
-import { DecimalPipe } from '@angular/common';
+
 
 
 @Component({
@@ -38,8 +39,8 @@ export class UsersComponent implements OnInit {
     private userService: UsersService,
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
-    private modalService: NgbModal,
-    pipe: DecimalPipe
+    private modalService: NgbModal
+
   ) {
 
   }
@@ -65,12 +66,37 @@ export class UsersComponent implements OnInit {
   }
 
   criarTableBy(user) {
-    user = this.filter.value;
-
-    this.userService.getUsuarioBy(user, this.homePage, this.pageSize).subscribe(res => {
-      this.page = res;
-      this.usuarios = this.page.content;
-    })
+    /*
+         user = this.filter.value;
+         this.carregar = true;
+         this.userService.getUsuarioBy(user, this.homePage, this.pageSize).subscribe(
+           res => {
+             this.carregar = false;
+             this.page = res;
+             this.usuarios = this.page.content;
+           }, err => {
+             console.log(err);
+             this.carregar = false;
+           })
+     */
+    this.filter.valueChanges
+      .pipe(
+        debounceTime(500),
+        switchMap(valor => {
+          this.carregar = true;
+          return this.userService.getUsuarioBy(valor, this.homePage, this.pageSize);
+        })
+      ).subscribe(
+        res => {
+          this.carregar = false;
+          this.page = res;
+          this.usuarios = this.page.content;
+        },
+        err => {
+          this.carregar = false;
+          console.log(err)
+        }
+      );
 
   }
 
