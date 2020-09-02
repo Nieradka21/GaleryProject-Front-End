@@ -30,6 +30,7 @@ export class UsersService {
   cadastrarUsuario(user: Usuarios): Observable<any> {
     return this.http.post(`${GALERY_API}/galery/user`, user, this.options)
       .map(response => response.ok)
+      
   }
   editarUsuario(user: Usuarios): Observable<any> {
 

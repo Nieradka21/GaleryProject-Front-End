@@ -10,6 +10,8 @@ import { debounceTime, distinctUntilChanged, map, filter, startWith } from 'rxjs
 import { DecimalPipe } from '@angular/common';
 import { padNumber } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { text } from '@angular/core/src/render3';
+import { invalid } from '@angular/compiler/src/render3/view/util';
+import { INVALID } from '@angular/forms/src/model';
 
 @Component({
   selector: 'app-users',
@@ -98,13 +100,13 @@ export class UsersComponent implements OnInit {
           res => {
             console.log(res);
             this.editar = false;
-            this.cadUs.setValidators;
             this.cadUs.reset();
-            this.criarTable(0, this.pageSize);
+            this.criarTable(this.homePage, this.pageSize);
             this.messageType = 'success';
             this.message = 'Cadastro realizado com sucesso';
             this.carregar = false;
             this.spinner.hide();
+            console.log(this.cadUs)
 
           },
           error => {
@@ -124,14 +126,15 @@ export class UsersComponent implements OnInit {
         .subscribe(
           res => {
             console.log(res);
+            this.cadUs.reset();
             this.criarTable(this.homePage, this.pageSize);
             this.messageType = 'success';
-            this.message = 'Editado com sucesso';
+            this.message = 'Alterado com sucesso';
             this.carregar = false;
             this.spinner.hide();
             this.editar = false;
-            this.cadUs.reset();
-            
+            console.log(this.cadUs)
+
           },
           error => {
             console.log(error);
@@ -144,21 +147,18 @@ export class UsersComponent implements OnInit {
           }
         )
 
-      console.log(this.user);
+
 
     }
   }
 
-
   editarClick(us: Usuarios) {
-    this.user.id = us.id;
     this.editar = true;
-    console.log(us.id)
     this.cadUs = this.formBuilder.group({
       id: this.formBuilder.control(us.id),
-      name: this.formBuilder.control(us.name),
-      pass: this.formBuilder.control(us.pass),
-      access: this.formBuilder.control(us.access)
+      name: this.formBuilder.control(us.name, [Validators.required, Validators.minLength(3)]),
+      pass: this.formBuilder.control(us.pass, [Validators.required, Validators.minLength(6)]),
+      access: this.formBuilder.control(us.access, [Validators.required])
     })
   }
 
