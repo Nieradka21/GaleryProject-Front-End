@@ -10,11 +10,11 @@
     <h3 class="text-primary">Users</h3>
   </div>
 
-  <div class="row">
+  <div class="row col-md-auto">
 
-    <div class="col-md-7 col-sm-7 col-xs-12 border border-secondary">
+    <div class="border border-secondary table-responsive-lg">
 
-      <table id="pag" class="table">
+      <table class="table col-md-auto ">
         <thead>
           <tr>
             <th scope="col">ID</th>
@@ -51,9 +51,9 @@
     </div>
 
 
-    <div class="col-md-1 col-sm-1 col-xs-12"></div>
+    <div class="col-md-1 col-sm-1 col-lg-1 col-xl-1"></div>
 
-    <div class="col-md-4 col-sm-4 col-xs-12 border border-secondary">
+    <div class="border border-secondary col-xl-4 col-lg-3 col-md-12 col-sm-12 ">
       <p></p>
       <form [formGroup]="cadUs" (ngSubmit)="onSubmit()">
         <div class="form-group">
@@ -66,7 +66,7 @@
         </div>
         <div class="form-group">
           <select formControlName="access" class="custom-select">
-            <option value= null [selected]="true">Select Group</option>
+            <option value=null [selected]="true">Select Group</option>
             <option value="Sales">Sales</option>
             <option value="Administrator">Admin</option>
             <option value="Master">Master</option>
@@ -81,6 +81,7 @@
       </form>
       <p></p>
     </div>
+
   </div>
 
 </div>
