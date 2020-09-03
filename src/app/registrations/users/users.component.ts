@@ -42,7 +42,7 @@ export class UsersComponent implements OnInit {
     private modalService: NgbModal
 
   ) {
-
+   
   }
 
   ngOnInit() {
@@ -65,26 +65,25 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  criarTableBy(user) {
+  criarTableBy(page, pageSize = 5) {
+    this.carregar = true;
+    this.userService.getUsuarioBy(this.filter.value, page, pageSize).subscribe(
+      res => {
+        this.carregar = false;
+        this.page = res;
+        this.usuarios = this.page.content;
+      }, err => {
+        console.log(err);
+        this.carregar = false;
+      })
+
     /*
-         user = this.filter.value;
-         this.carregar = true;
-         this.userService.getUsuarioBy(user, this.homePage, this.pageSize).subscribe(
-           res => {
-             this.carregar = false;
-             this.page = res;
-             this.usuarios = this.page.content;
-           }, err => {
-             console.log(err);
-             this.carregar = false;
-           })
-     */
     this.filter.valueChanges
       .pipe(
         debounceTime(500),
         switchMap(valor => {
           this.carregar = true;
-          return this.userService.getUsuarioBy(valor, this.homePage, this.pageSize);
+          return this.userService.getUsuarioBy(valor, page, pageSize)
         })
       ).subscribe(
         res => {
@@ -97,11 +96,19 @@ export class UsersComponent implements OnInit {
           console.log(err)
         }
       );
-
+*/
   }
 
   changePage(event) {
-    this.criarTable(event.page, event.size);
+    if (this.filter.value == '') {
+      this.criarTable(event.page, event.size);
+    } else {
+      this.criarTableBy(event.page, event.size);
+    }
+
+
+
+
   }
 
 

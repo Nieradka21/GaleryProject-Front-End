@@ -23,7 +23,7 @@ export class UsersService {
 
   getUsuarioBy(user, page, size): Observable<Page> {
     return this.http
-      .get(`${GALERY_API}/galery/users/${user}?page=${page}&size=${size}`)
+      .get(`${GALERY_API}/galery/users/${user}/?page=${page}&size=${size}`)
       .map(res => res.json())
   }
 
