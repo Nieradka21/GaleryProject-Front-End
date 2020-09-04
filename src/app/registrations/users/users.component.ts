@@ -5,7 +5,7 @@ import { Component, OnInit, } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal, NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ExcluirUsersComponent } from './excluir-users/excluir-users.component';
-import { debounceTime, switchMap } from 'rxjs/operators';
+import { debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators';
 
 
 
@@ -42,7 +42,7 @@ export class UsersComponent implements OnInit {
     private modalService: NgbModal
 
   ) {
-   
+
   }
 
   ngOnInit() {
@@ -51,6 +51,25 @@ export class UsersComponent implements OnInit {
     this.criarForm();
     this.criarTable(this.homePage, this.pageSize)
 
+    this.filter.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap(valor => {
+          this.carregar = true;
+          return this.userService.getUsuarioBy(valor, 0, this.pageSize)
+        })
+      ).subscribe(
+        res => {
+          this.carregar = false;
+          this.page = res;
+          this.usuarios = this.page.content;
+        },
+        err => {
+          this.carregar = false;
+          console.log(err)
+        }
+      );
   }
   criarTable(page, pageSize) {
     this.carregar = true;
@@ -65,7 +84,7 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  criarTableBy(page, pageSize = 5) {
+  criarTableBy(page, pageSize) {
     this.carregar = true;
     this.userService.getUsuarioBy(this.filter.value, page, pageSize).subscribe(
       res => {
@@ -76,30 +95,10 @@ export class UsersComponent implements OnInit {
         console.log(err);
         this.carregar = false;
       })
-
-    /*
-    this.filter.valueChanges
-      .pipe(
-        debounceTime(500),
-        switchMap(valor => {
-          this.carregar = true;
-          return this.userService.getUsuarioBy(valor, page, pageSize)
-        })
-      ).subscribe(
-        res => {
-          this.carregar = false;
-          this.page = res;
-          this.usuarios = this.page.content;
-        },
-        err => {
-          this.carregar = false;
-          console.log(err)
-        }
-      );
-*/
   }
 
   changePage(event) {
+    console.log(event);
     if (this.filter.value == '') {
       this.criarTable(event.page, event.size);
     } else {
