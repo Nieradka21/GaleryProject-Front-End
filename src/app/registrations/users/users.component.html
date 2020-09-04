@@ -1,6 +1,6 @@
 <app-home></app-home>
 
-<div class="container">
+<div class="container mb-4">
   <div>
     <div *ngIf="carregar">
       <ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium">
@@ -23,8 +23,7 @@
             <th scope="col">Password</th>
             <th>
               <form>
-                Name search:<input class="form-control ml-2" type="text" [formControl]="filter"
-                  (ngModelChange)="criarTableBy()" />
+                Name search:<input class="form-control ml-2" type="text" [formControl]="filter" />
               </form>
             </th>
           </tr>
