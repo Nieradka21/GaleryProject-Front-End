@@ -10,11 +10,11 @@
     <h3 class="text-primary">Users</h3>
   </div>
 
-  <div class="row col-md">
+  <div class="row col-md-auto">
 
     <div class="border border-secondary table-responsive-lg">
 
-      <table id="teste" class="table col-xl ">
+      <table class="table col-md-auto ">
         <thead>
           <tr>
             <th scope="col">ID</th>
@@ -52,7 +52,34 @@
 
     <div class="col-md-1 col-sm-1 col-lg-1 col-xl-1"></div>
 
-    
+    <div class="border border-secondary col-xl-4 col-lg-3 col-md-12 col-sm-12 ">
+      <p></p>
+      <form [formGroup]="cadUs" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <input formControlName="name" class="form-control" type="text" placeholder="User Name" />
+          <span></span>
+        </div>
+        <div class="form-group">
+          <input formControlName="pass" type="password" class="form-control" id="exampleInputPassword1"
+            placeholder="Password">
+        </div>
+        <div class="form-group">
+          <select formControlName="access" class="custom-select">
+            <option value=null [selected]="true">Select Group</option>
+            <option value="Sales">Sales</option>
+            <option value="Administrator">Admin</option>
+            <option value="Master">Master</option>
+          </select>
+        </div>
+        <button [disabled]="cadUs.invalid " type="submit" class="btn btn-primary">Submit</button>
+        <br>
+        <p *ngIf="message">
+          <br>
+          <ngb-alert [type]="messageType" (close)="close()">{{ message }}</ngb-alert>
+        </p>
+      </form>
+      <p></p>
+    </div>
 
   </div>
 
