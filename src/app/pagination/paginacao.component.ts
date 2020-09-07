@@ -41,8 +41,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls:['./pagination.component.css']
 })
 export class PaginationComponent implements OnInit {
-    private size: number = 5;
-    private page; 
+    public size: number = 5;
+    public page; 
     @Input("page") public set value(page : any){
         if(!page) return;
         this.page = page;
