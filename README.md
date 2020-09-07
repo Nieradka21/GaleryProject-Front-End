@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/Nieradka21/GaleryProject-Front-End.svg?branch=master)](https://travis-ci.org/Nieradka21/GaleryProject-Front-End)
 # GaleryProject
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.4.
