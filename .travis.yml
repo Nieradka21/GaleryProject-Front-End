@@ -1,9 +1,9 @@
 dist: trusty
-sudo: true
+sudo: false
 
 language: node_js
 node_js:
-  - '14'
+  - '8'
 
 addons:
   apt:
