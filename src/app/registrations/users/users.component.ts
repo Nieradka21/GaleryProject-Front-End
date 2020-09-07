@@ -6,6 +6,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal, NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ExcluirUsersComponent } from './excluir-users/excluir-users.component';
 import { debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators';
+import { UserFormComponent } from './user-form/user-form.component';
+
 
 
 
@@ -23,11 +25,10 @@ export class UsersComponent implements OnInit {
   pageNumber: Pageable;
   usuarios: Array<Usuarios>;
   user: Usuarios = {} as Usuarios;
-  cadUs: FormGroup;
+
   message: string;
   messageType: string;
   carregar = false;
-  editar = false;
   pageSize = 5;
   homePage = 0;
 
@@ -37,7 +38,7 @@ export class UsersComponent implements OnInit {
   constructor(
 
     private userService: UsersService,
-    private formBuilder: FormBuilder,
+
     private spinner: NgxSpinnerService,
     private modalService: NgbModal
 
@@ -48,7 +49,7 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
     this.carregar = false;
     this.spinner.show();
-    this.criarForm();
+
     this.criarTable(this.homePage, this.pageSize)
 
     this.filter.valueChanges
@@ -71,17 +72,71 @@ export class UsersComponent implements OnInit {
         }
       );
   }
+
+  addUser() {
+    const ref = this.modalService.open(UserFormComponent, { centered: true });
+
+    ref.result.then(() => {
+      this.criarTable(this.homePage, this.pageSize)
+    })
+  }
+
+  editarClick(us: Usuarios) {
+
+
+    const ref = this.modalService.open(UserFormComponent, { centered: true });
+    ref.componentInstance.user = us;
+    ref.componentInstance.editar = true;
+
+    ref.result.then((result) => {
+
+      if (result) {
+
+        setTimeout(() => {
+          console.log(result)
+          this.carregar = true;
+          this.spinner.show();
+          this.userService.editarUsuario(result)
+            .subscribe(
+              res => {
+                console.log(res);
+                this.messageType = 'success';
+                this.message = 'Alterado com sucesso';
+                this.carregar = false;
+                this.spinner.hide();
+                this.criarTable(this.homePage, this.pageSize);
+              },
+              error => {
+                console.log(error);
+                this.messageType = 'danger';
+                this.message = 'erro';
+                this.carregar = false;
+                this.spinner.hide();
+              }
+            )
+        }, 3000);
+
+      }
+
+
+
+    })
+
+  }
+
+
   criarTable(page, pageSize) {
     this.carregar = true;
 
-    this.userService.getUsuario(page, pageSize).subscribe(res => {
-      this.page = res;
-      this.usuarios = this.page.content;
-      this.carregar = false;
-    }, err => {
-      console.log(err);
-      this.carregar = false;
-    })
+    this.userService.getUsuario(page, pageSize).subscribe(
+      res => {
+        this.page = res;
+        this.usuarios = this.page.content;
+        this.carregar = false;
+      }, err => {
+        console.log(err);
+        this.carregar = false;
+      })
   }
 
   criarTableBy(page, pageSize) {
@@ -116,85 +171,7 @@ export class UsersComponent implements OnInit {
     this.messageType = "";
   }
 
-  criarForm() {
-    this.cadUs = this.formBuilder.group({
-      name: this.formBuilder.control(this.user.name, [Validators.required, Validators.minLength(3)]),
-      access: this.formBuilder.control(this.user.access, [Validators.required]),
-      pass: this.formBuilder.control(this.user.pass, [Validators.required, Validators.minLength(6)])
-    });
-  }
 
-  onSubmit() {
-    this.user = this.cadUs.value;
-
-    if (!this.editar) {
-      this.carregar = true;
-      this.userService.cadastrarUsuario(this.user)
-        .subscribe(
-          res => {
-            console.log(res);
-            this.editar = false;
-            this.cadUs.reset();
-            this.criarTable(this.homePage, this.pageSize);
-            this.messageType = 'success';
-            this.message = 'Cadastro realizado com sucesso';
-            this.carregar = false;
-            this.spinner.hide();
-            console.log(this.cadUs)
-
-          },
-          error => {
-            console.log(error);
-            this.messageType = 'danger';
-            this.message = 'erro';
-            this.carregar = false;
-            this.spinner.hide();
-
-          }
-        )
-    }
-
-    else {
-      this.carregar = true;
-      this.userService.editarUsuario(this.user)
-        .subscribe(
-          res => {
-            console.log(res);
-            this.cadUs.reset();
-            this.criarTable(this.homePage, this.pageSize);
-            this.messageType = 'success';
-            this.message = 'Alterado com sucesso';
-            this.carregar = false;
-            this.spinner.hide();
-            this.editar = false;
-            console.log(this.cadUs)
-
-          },
-          error => {
-            console.log(error);
-            this.messageType = 'danger';
-            this.message = 'erro';
-            this.carregar = false;
-            this.spinner.hide();
-
-
-          }
-        )
-
-
-
-    }
-  }
-
-  editarClick(us: Usuarios) {
-    this.editar = true;
-    this.cadUs = this.formBuilder.group({
-      id: this.formBuilder.control(us.id),
-      name: this.formBuilder.control(us.name, [Validators.required, Validators.minLength(3)]),
-      pass: this.formBuilder.control(us.pass, [Validators.required, Validators.minLength(6)]),
-      access: this.formBuilder.control(us.access, [Validators.required])
-    })
-  }
 
 
   deletarClick(us) {

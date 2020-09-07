@@ -16,6 +16,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { ExcluirUsersComponent } from './registrations/users/excluir-users/excluir-users.component';
 import { DecimalPipe } from '@angular/common';
 import { PaginationComponent } from './pagination/paginacao.component';
+import { UserFormComponent } from './registrations/users/user-form/user-form.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { PaginationComponent } from './pagination/paginacao.component';
     HomeComponent,
     UsersComponent,
     ExcluirUsersComponent,
-    PaginationComponent
+    PaginationComponent,
+    UserFormComponent
 
 
 
@@ -44,7 +46,8 @@ import { PaginationComponent } from './pagination/paginacao.component';
     AppRoutingModule
   ],
   providers: [LoginService, UsersService ,DecimalPipe],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [UserFormComponent]
 })
 export class AppModule {
 

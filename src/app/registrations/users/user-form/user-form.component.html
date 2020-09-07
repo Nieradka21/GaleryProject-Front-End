@@ -1,0 +1,41 @@
+<div class="modal-header">
+  <div *ngIf="carregar">
+    <ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium">
+      <p class="loading" style="color: rgb(255, 255, 255)"> Carregando... </p>
+    </ngx-spinner>
+  </div>
+  <h4 class="modal-title">Adicionar Cliente</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="cadUs">
+    <div class="form-group">
+      <input formControlName="name" class="form-control" type="text" placeholder="User Name" />
+      <span></span>
+    </div>
+    <div class="form-group">
+      <input formControlName="pass" type="password" class="form-control" id="exampleInputPassword1"
+        placeholder="Password">
+    </div>
+    <div class="form-group">
+      <select formControlName="access" class="custom-select">
+        <option value=null [selected]="true">Select Group</option>
+        <option value="Sales">Sales</option>
+        <option value="Administrator">Admin</option>
+        <option value="Master">Master</option>
+      </select>
+    </div>
+
+    <br>
+    <p *ngIf="message">
+      <br>
+      <ngb-alert [type]="messageType" (close)="close()">{{ message }}</ngb-alert>
+    </p>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close(false)">Close</button>
+  <button [disabled]="cadUs.invalid" (click)="onSubmit()" type="submit" class="btn btn-primary">Submit</button>
+</div>

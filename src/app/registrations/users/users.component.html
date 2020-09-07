@@ -8,13 +8,18 @@
       </ngx-spinner>
     </div>
     <h3 class="text-primary">Users</h3>
+    <button type="button" (click)="addUser()" class="btn btn-primary">Adicionar</button>
+    <p *ngIf="message">
+      <br>
+      <ngb-alert [type]="messageType" (close)="close()">{{ message }}</ngb-alert>
+    </p>
   </div>
 
   <div class="row col-md-auto">
 
-    <div class="border border-secondary table-responsive-lg">
+    <div class="table-responsive ">
 
-      <table class="table col-md-auto ">
+      <table class="table table-striped">
         <thead>
           <tr>
             <th scope="col">ID</th>
@@ -51,7 +56,7 @@
 
 
     <div class="col-md-1 col-sm-1 col-lg-1 col-xl-1"></div>
-
+    <!--
     <div class="border border-secondary col-xl-4 col-lg-3 col-md-12 col-sm-12 ">
       <p></p>
       <form [formGroup]="cadUs" (ngSubmit)="onSubmit()">
@@ -79,7 +84,7 @@
         </p>
       </form>
       <p></p>
-    </div>
+    </div>-->
 
   </div>
 
