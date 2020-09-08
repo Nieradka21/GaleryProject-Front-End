@@ -52,6 +52,7 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
+              "baseHref": "https://github.com/Nieradka21/GaleryProject-Front-End",
               "budgets": [
                 {
                   "type": "initial",

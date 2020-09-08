@@ -1,14 +1,24 @@
+dist: xenial
+sudo: false
+
 language: node_js
 node_js:
   - "14"
-dist: trusty
-sudo: required
-branches:
-  only:
-  - master
-before_script:
-  - npm install -g @angular/cli
+
+cache:
+  directories:
+     - ./node_modules
+
+install:
   - npm install
+
 script:
-- ng lint
-- ng build --prod --base-href https://github.com/Nieradka21/GaleryProject-Front-End/
+  - npm run-script build
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: dist/angular-github-pages-travis
+  on:
+    branch: master
