@@ -1,7 +1,7 @@
 
 language: node_js
 node_js:
-  - "10.4.1"
+  - "14"
 sudo: true
 
 addons:
@@ -15,7 +15,5 @@ before_script:
   - npm install 
 
 script:
-  - ng lint
   - ng serve
-  - ng e2e
   
