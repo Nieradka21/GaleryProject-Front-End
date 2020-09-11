@@ -114,7 +114,7 @@ export class UsersComponent implements OnInit {
                 this.spinner.hide();
               }
             )
-        }, 3000);
+        }, 1);
 
       }
 
@@ -212,5 +212,7 @@ export class UsersComponent implements OnInit {
 
 
   }
+
+  
 
 }

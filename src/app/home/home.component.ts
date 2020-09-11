@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UsersService } from '../registrations/users/users.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  public img = "../assets/img/logout.png";
+  constructor(
+    private userService: UsersService
+  ) { }
 
   ngOnInit() {
+  }
+
+  logout() {
+    this.userService.logout();
   }
 
 }

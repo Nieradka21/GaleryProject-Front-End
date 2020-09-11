@@ -3,7 +3,6 @@ import { UsersService } from './registrations/users/users.service';
 import { UsersComponent } from './registrations/users/users.component';
 import { Http, HttpModule } from '@angular/http';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { LoginService } from './login/login.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Injector } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -43,9 +42,11 @@ import { UserFormComponent } from './registrations/users/user-form/user-form.com
     NgbModule,
     NgxSpinnerModule,
 
+
+
     AppRoutingModule
   ],
-  providers: [LoginService, UsersService ,DecimalPipe],
+  providers: [UsersService, DecimalPipe],
   bootstrap: [AppComponent],
   entryComponents: [UserFormComponent]
 })
