@@ -4,7 +4,8 @@ export interface Usuarios {
     name: string
     access: string
     pass: string
-    token:string
+    email: string
+    token: string
 }
 
 export interface Page {

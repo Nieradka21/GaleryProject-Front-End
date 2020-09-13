@@ -24,8 +24,8 @@
           <tr>
             <th scope="col">ID</th>
             <th scope="col">NAME</th>
+            <th scope="col">EMAIL</th>
             <th scope="col">ACCESS</th>
-            <th scope="col">Password</th>
             <th>
               <form>
                 Name search:<input class="form-control ml-2" type="text" [formControl]="filter" />
@@ -37,8 +37,8 @@
           <tr *ngFor="let us of usuarios ">
             <th scope="row">{{us.id}}</th>
             <td> {{us.name}}</td>
+            <td> {{us.email}} </td>
             <td> {{us.access}} </td>
-            <td> {{us.pass}} </td>
             <td>
               <button (click)="editarClick(us)" class="btn btn-primary">Editar</button>
               <button (click)="deletarClick(us)" class="btn btn-danger">Excluir</button>

@@ -1,6 +1,6 @@
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { Usuarios, Page, Pageable } from './user.model';
-import { UsersService } from './users.service';
+import { Usuarios, Page, Pageable } from '../../models/user.model';
+import { UsersService } from '../../services/userService/users.service';
 import { Component, OnInit, } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal, NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';

@@ -1,5 +1,5 @@
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { UsersService } from './registrations/users/users.service';
+import { UsersService } from './services/userService/users.service';
 import { UsersComponent } from './registrations/users/users.component';
 import { Http, HttpModule } from '@angular/http';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -16,6 +16,8 @@ import { ExcluirUsersComponent } from './registrations/users/excluir-users/exclu
 import { DecimalPipe } from '@angular/common';
 import { PaginationComponent } from './pagination/paginacao.component';
 import { UserFormComponent } from './registrations/users/user-form/user-form.component';
+import { AuthGuard } from './services/authService/auth.guard';
+import { LoginResetComponent } from './login/login-reset/login-reset.component';
 
 
 @NgModule({
@@ -26,7 +28,8 @@ import { UserFormComponent } from './registrations/users/user-form/user-form.com
     UsersComponent,
     ExcluirUsersComponent,
     PaginationComponent,
-    UserFormComponent
+    UserFormComponent,
+    LoginResetComponent
 
 
 
@@ -46,9 +49,9 @@ import { UserFormComponent } from './registrations/users/user-form/user-form.com
 
     AppRoutingModule
   ],
-  providers: [UsersService, DecimalPipe],
+  providers: [UsersService, DecimalPipe,AuthGuard],
   bootstrap: [AppComponent],
-  entryComponents: [UserFormComponent]
+  entryComponents: [UserFormComponent,LoginResetComponent]
 })
 export class AppModule {
 

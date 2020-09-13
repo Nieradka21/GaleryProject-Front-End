@@ -1,6 +1,6 @@
-import { GALERY_API } from './../../app.api';
+import { GALERY_API } from '../../app.api';
 import { Injectable, EventEmitter } from '@angular/core';
-import { Usuarios, Page } from './user.model';
+import { Usuarios, Page } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map'
 import { HttpHeaders, HttpClient } from '@angular/common/http';
