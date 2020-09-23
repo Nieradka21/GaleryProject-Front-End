@@ -43,15 +43,6 @@ export class UsersComponent implements OnInit {
     private modalService: NgbModal
 
   ) {
-
-  }
-
-  ngOnInit() {
-    this.carregar = false;
-    this.spinner.show();
-
-    this.criarTable(this.homePage, this.pageSize)
-
     this.filter.valueChanges
       .pipe(
         debounceTime(500),
@@ -71,6 +62,15 @@ export class UsersComponent implements OnInit {
           console.log(err)
         }
       );
+  }
+
+  ngOnInit() {
+    this.carregar = false;
+    this.spinner.show();
+
+    this.criarTable(this.homePage, this.pageSize)
+
+
   }
 
   addUser() {
@@ -213,6 +213,6 @@ export class UsersComponent implements OnInit {
 
   }
 
-  
+
 
 }

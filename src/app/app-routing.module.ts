@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ExcluirUsersComponent } from './registrations/users/excluir-users/excluir-users.component';
 import { AuthGuard } from './services/authService/auth.guard';
+import { ResetPasswordComponent } from './login/reset-password/reset-password.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
     path: 'teste', component: ExcluirUsersComponent,
     canActivate: [AuthGuard]
   },
+  { path: 'reset', component: ResetPasswordComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' }
 
 

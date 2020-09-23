@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
     ) {
     this.loginForm = this.fb.group({
 
-      email: this.fb.control('', [Validators.required, Validators.minLength(3)]),
+      email: this.fb.control('', [Validators.required, Validators.email]),
       pass: this.fb.control('', [Validators.required, Validators.minLength(6)]),
     })
   }
@@ -61,9 +61,7 @@ export class LoginComponent implements OnInit {
 
 
   resetPass() {
-
     const ref = this.modalService.open(LoginResetComponent, { centered: true })
-
 
   }
 

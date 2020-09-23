@@ -74,7 +74,7 @@ export class UsersService {
 
   getUsuarioBy(user, page, size): Observable<Page> {
     return this.http
-      .get<any>(`${GALERY_API}/galery/users/${user}/?page=${page}&size=${size}`,this.options)
+      .get<any>(`${GALERY_API}/galery/users/${user}/?page=${page}&size=${size}`, this.options)
       .map(res => res)
   }
 
@@ -91,6 +91,11 @@ export class UsersService {
 
   deletarUsuario(id): Observable<any> {
     return this.http.delete(`${GALERY_API}/galery/user/${id}`)
+      .map(response => response)
+  }
+
+  resetarSenha(user:Usuarios): Observable<any> {
+    return this.http.post(`${GALERY_API}/galery/email`,user)
       .map(response => response)
   }
 

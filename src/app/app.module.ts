@@ -18,6 +18,7 @@ import { PaginationComponent } from './pagination/paginacao.component';
 import { UserFormComponent } from './registrations/users/user-form/user-form.component';
 import { AuthGuard } from './services/authService/auth.guard';
 import { LoginResetComponent } from './login/login-reset/login-reset.component';
+import { ResetPasswordComponent } from './login/reset-password/reset-password.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { LoginResetComponent } from './login/login-reset/login-reset.component';
     ExcluirUsersComponent,
     PaginationComponent,
     UserFormComponent,
-    LoginResetComponent
+    LoginResetComponent,
+    ResetPasswordComponent
 
 
 
