@@ -32,6 +32,8 @@ export class UsersService {
         headers: httpHeaders
       };
     }
+
+
   }
 
   login(user: Usuarios): Observable<Usuarios> {
@@ -40,6 +42,11 @@ export class UsersService {
         catchError(ErrorHandler.handlerError)
       );
 
+  }
+
+  isLogged() {
+    return this.http.post(`${GALERY_API}/galery/logado`, localStorage['token'])
+      .map(res => res);
   }
 
   logout() {
@@ -94,8 +101,8 @@ export class UsersService {
       .map(response => response)
   }
 
-  resetarSenha(user:Usuarios): Observable<any> {
-    return this.http.post(`${GALERY_API}/galery/email`,user)
+  resetarSenha(user: Usuarios): Observable<any> {
+    return this.http.post(`${GALERY_API}/galery/email`, user)
       .map(response => response)
   }
 
