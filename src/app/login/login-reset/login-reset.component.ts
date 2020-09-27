@@ -30,11 +30,13 @@ export class LoginResetComponent implements OnInit {
   }
 
   reset() {
+    this.carregar = true;
     const reset = {} as Usuarios;
     reset.email = this.loginForm.controls.email1.value;
+
     if (this.loginForm.controls.email1.value == this.loginForm.controls.email2.value) {
-      this.carregar = true;
-      this.userService.resetarSenha(reset)
+      
+      this.userService.enviarEmail(reset)
         .subscribe(
           res => {
             this.carregar = false;

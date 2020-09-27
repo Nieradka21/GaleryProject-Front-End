@@ -63,6 +63,8 @@ export class LoginComponent implements OnInit {
   resetPass() {
     const ref = this.modalService.open(LoginResetComponent, { centered: true })
 
+    
+
   }
 
 

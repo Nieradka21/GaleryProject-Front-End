@@ -1,6 +1,6 @@
 <div *ngIf="carregar">
   <ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium">
-    <p class="loading" style="color: white"> Entrando... </p>
+    <p class="loading" style="color: white"> Carregando... </p>
   </ngx-spinner>
 </div>
 
@@ -32,6 +32,6 @@
   </form>
 </div>
 <div class="modal-footer">
-  <button (click)="reset()" [disabled]="loginForm.invalid" class="btn btn-lg btn-primary btn-block"
+  <button (click)="reset()" [disabled]="loginForm.invalid" type="submit" class="btn btn-lg btn-primary btn-block"
     type="submit">Reset</button>
 </div>

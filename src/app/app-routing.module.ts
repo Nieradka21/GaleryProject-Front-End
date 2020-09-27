@@ -3,7 +3,6 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ExcluirUsersComponent } from './registrations/users/excluir-users/excluir-users.component';
 import { AuthGuard } from './services/authService/auth.guard';
 import { ResetPasswordComponent } from './login/reset-password/reset-password.component';
 
@@ -17,10 +16,6 @@ const routes: Routes = [
   },
   {
     path: 'users', component: UsersComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'teste', component: ExcluirUsersComponent,
     canActivate: [AuthGuard]
   },
   { path: 'reset', component: ResetPasswordComponent },

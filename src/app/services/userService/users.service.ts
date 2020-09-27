@@ -101,8 +101,23 @@ export class UsersService {
       .map(response => response)
   }
 
-  resetarSenha(user: Usuarios): Observable<any> {
+  enviarEmail(user: Usuarios): Observable<any> {
     return this.http.post(`${GALERY_API}/galery/email`, user)
+      .map(response => response)
+  }
+
+  resetPassword(user: Usuarios): Observable<any> {
+    this.httpHeaders = new HttpHeaders(
+      {
+        'Content-Type': 'application/json',
+
+        'Authorization': "Bearer " + user.token
+      }
+    );
+    this.options = {
+      headers: this.httpHeaders
+    };
+    return this.http.put(`${GALERY_API}/galery/reset`, user, this.options)
       .map(response => response)
   }
 
